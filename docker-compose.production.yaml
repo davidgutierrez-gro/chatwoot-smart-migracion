@@ -1,19 +1,33 @@
-version: '3'
-
 services:
   base: &base
-    image: chatwoot/chatwoot:latest
-    env_file: .env ## Change this file for customized env variables
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    image: chatwoot-growfik-v3:latest
+    env_file: .env
     volumes:
-      - storage_data:/app/storage
+      - storage_data_v2:/app/storage
+
+  migrations:
+    <<: *base
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+    command: bundle exec rails db:migrate
+    restart: on-failure
 
   rails:
     <<: *base
     depends_on:
       - postgres
       - redis
+      - migrations
     ports:
-      - '127.0.0.1:3000:3000'
+      - '0.0.0.0:3010:3000'
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
@@ -27,6 +41,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - migrations
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
@@ -38,26 +53,24 @@ services:
     image: pgvector/pgvector:pg16
     restart: always
     ports:
-      - '127.0.0.1:5432:5432'
+      - '127.0.0.1:5544:5432'
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_v2:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=chatwoot
+      - POSTGRES_DB=chatwoot_v2
       - POSTGRES_USER=postgres
-      # Please provide your own password.
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=Pg_Str0ng_Chatwoot_2026
 
   redis:
     image: redis:alpine
     restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
-    env_file: .env
+    command: ["sh", "-c", "redis-server --requirepass \"Rd_Str0ng_Chatwoot_2026\""]
     volumes:
-      - redis_data:/data
+      - redis_data_v2:/data
     ports:
-      - '127.0.0.1:6379:6379'
+      - '127.0.0.1:6390:6379'
 
 volumes:
-  storage_data:
-  postgres_data:
-  redis_data:
+  storage_data_v2:
+  postgres_data_v2:
+  redis_data_v2:

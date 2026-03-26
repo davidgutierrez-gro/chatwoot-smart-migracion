@@ -1,0 +1,11 @@
+# ------- Branding Related Config ------- #
+# MOD-6: Archivo vaciado para evitar que el job diario (ReconcilePlanConfigService)
+# resetee el branding personalizado a los valores default de Chatwoot.
+# El reconcile recorre este archivo y fuerza los valores en plan community.
+# Al dejarlo vacio, no hay nada que resetear = branding personalizado persiste.
+#
+# Valores originales removidos:
+# INSTALLATION_NAME, LOGO_THUMBNAIL, LOGO, LOGO_DARK, BRAND_URL,
+# WIDGET_BRAND_URL, BRAND_NAME, TERMS_URL, PRIVACY_URL, DISPLAY_MANIFEST
+# ------- End of Branding Related Config ------- #
+[]

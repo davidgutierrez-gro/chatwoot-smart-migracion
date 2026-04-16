@@ -3,10 +3,10 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
-    image: chatwoot-growfik-v3:latest
+    image: chatwoot-growfik-v15:latest
     env_file: .env
     volumes:
-      - storage_data_v2:/app/storage
+      - storage_data_v15:/app/storage
 
   migrations:
     <<: *base
@@ -27,7 +27,7 @@ services:
       - redis
       - migrations
     ports:
-      - '0.0.0.0:3010:3000'
+      - '0.0.0.0:3011:3000'
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
@@ -53,11 +53,11 @@ services:
     image: pgvector/pgvector:pg16
     restart: always
     ports:
-      - '127.0.0.1:5544:5432'
+      - '127.0.0.1:5545:5432'
     volumes:
-      - postgres_data_v2:/var/lib/postgresql/data
+      - postgres_data_v15:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=chatwoot_v2
+      - POSTGRES_DB=chatwoot_v15
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=Pg_Str0ng_Chatwoot_2026
 
@@ -66,11 +66,11 @@ services:
     restart: always
     command: ["sh", "-c", "redis-server --requirepass \"Rd_Str0ng_Chatwoot_2026\""]
     volumes:
-      - redis_data_v2:/data
+      - redis_data_v15:/data
     ports:
-      - '127.0.0.1:6390:6379'
+      - '127.0.0.1:6391:6379'
 
 volumes:
-  storage_data_v2:
-  postgres_data_v2:
-  redis_data_v2:
+  storage_data_v15:
+  postgres_data_v15:
+  redis_data_v15:

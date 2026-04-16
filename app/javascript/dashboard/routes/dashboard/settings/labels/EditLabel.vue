@@ -25,6 +25,7 @@ export default {
       title: '',
       description: '',
       showOnSidebar: true,
+      hideInKanban: false,
       color: '',
     };
   },
@@ -54,6 +55,7 @@ export default {
       this.title = this.selectedResponse.title;
       this.description = this.selectedResponse.description;
       this.showOnSidebar = this.selectedResponse.show_on_sidebar;
+      this.hideInKanban = this.selectedResponse.hide_in_kanban || false;
       this.color = this.selectedResponse.color;
     },
     editLabel() {
@@ -64,6 +66,7 @@ export default {
           description: this.description,
           title: this.title.toLowerCase(),
           show_on_sidebar: this.showOnSidebar,
+          hide_in_kanban: this.hideInKanban,
         })
         .then(() => {
           useAlert(this.$t('LABEL_MGMT.EDIT.API.SUCCESS_MESSAGE'));
@@ -100,7 +103,6 @@ export default {
         @input="v$.description.$touch"
         @blur="v$.description.$touch"
       />
-
       <div class="w-full">
         <label>
           {{ $t('LABEL_MGMT.FORM.COLOR.LABEL') }}
@@ -112,6 +114,11 @@ export default {
         <label for="conversation_creation">
           {{ $t('LABEL_MGMT.FORM.SHOW_ON_SIDEBAR.LABEL') }}
         </label>
+      </div>
+      <!-- MOD-7: Ocultar columna en vista Kanban -->
+      <div class="flex items-center w-full gap-2 mt-2">
+        <input v-model="hideInKanban" type="checkbox" :value="true" />
+        <label>Ocultar en vista Kanban</label>
       </div>
       <div class="flex items-center justify-end w-full gap-2 px-0 py-2">
         <NextButton
@@ -133,7 +140,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-// Label API supports only lowercase letters
 .label-name--input {
   ::v-deep {
     input {

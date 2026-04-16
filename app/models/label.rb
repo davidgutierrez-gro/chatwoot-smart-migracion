@@ -29,6 +29,7 @@ class Label < ApplicationRecord
 
   after_update_commit :update_associated_models
   default_scope { order(:title) }
+  scope :kanban_visible, -> { unscoped.where(hide_in_kanban: false).order(:position, :title) }
 
   before_validation do
     self.title = title.downcase if attribute_present?('title')

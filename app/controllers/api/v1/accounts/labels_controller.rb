@@ -29,6 +29,6 @@ class Api::V1::Accounts::LabelsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.require(:label).permit(:title, :description, :color, :show_on_sidebar)
+    params.require(:label).permit(:title, :description, :color, :show_on_sidebar, :position, :hide_in_kanban)
   end
 end

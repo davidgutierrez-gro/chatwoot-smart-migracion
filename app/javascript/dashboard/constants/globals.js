@@ -31,6 +31,7 @@ export default {
   LAYOUT_TYPES: {
     CONDENSED: 'condensed',
     EXPANDED: 'expanded',
+    KANBAN: 'kanban',
   },
   DOCS_URL: 'https://www.chatwoot.com/docs/product/',
   HELP_CENTER_DOCS_URL:

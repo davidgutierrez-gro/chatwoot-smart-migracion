@@ -39,15 +39,42 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
 const allCount = computed(() => props.conversationStats?.allCount || 0);
 const formattedAllCount = computed(() => formatNumber(allCount.value));
 
+// MOD-7: Kanban view toggle
+const isKanbanView = computed(() => {
+  const { LAYOUT_TYPES } = wootConstants;
+  const {
+    conversation_display_type: conversationDisplayType = LAYOUT_TYPES.CONDENSED,
+  } = uiSettings.value;
+  return conversationDisplayType === LAYOUT_TYPES.KANBAN;
+});
+
 const toggleConversationLayout = () => {
   const { LAYOUT_TYPES } = wootConstants;
   const {
     conversation_display_type: conversationDisplayType = LAYOUT_TYPES.CONDENSED,
   } = uiSettings.value;
+  if (conversationDisplayType === LAYOUT_TYPES.KANBAN) {
+    updateUISettings({
+      conversation_display_type: LAYOUT_TYPES.CONDENSED,
+      previously_used_conversation_display_type: LAYOUT_TYPES.CONDENSED,
+    });
+    return;
+  }
   const newViewType =
     conversationDisplayType === LAYOUT_TYPES.CONDENSED
       ? LAYOUT_TYPES.EXPANDED
       : LAYOUT_TYPES.CONDENSED;
+  updateUISettings({
+    conversation_display_type: newViewType,
+    previously_used_conversation_display_type: newViewType,
+  });
+};
+
+const toggleKanbanView = () => {
+  const { LAYOUT_TYPES } = wootConstants;
+  const newViewType = isKanbanView.value
+    ? LAYOUT_TYPES.CONDENSED
+    : LAYOUT_TYPES.KANBAN;
   updateUISettings({
     conversation_display_type: newViewType,
     previously_used_conversation_display_type: newViewType,
@@ -159,7 +186,16 @@ const toggleConversationLayout = () => {
         :is-on-expanded-layout="isOnExpandedLayout"
         @change-filter="onBasicFilterChange"
       />
+      <NextButton
+        v-tooltip.top-end="isKanbanView ? 'Vista Lista' : 'Vista Kanban'"
+        :icon="isKanbanView ? 'i-lucide-list' : 'i-lucide-columns'"
+        slate
+        xs
+        :faded="!isKanbanView"
+        @click="toggleKanbanView"
+      />
       <SwitchLayout
+        v-if="!isKanbanView"
         :is-on-expanded-layout="isOnExpandedLayout"
         @toggle="toggleConversationLayout"
       />

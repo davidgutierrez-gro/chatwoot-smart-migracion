@@ -5,5 +5,7 @@ json.payload do
     json.description label.description
     json.color label.color
     json.show_on_sidebar label.show_on_sidebar
+    json.position label.position
+    json.hide_in_kanban label.hide_in_kanban
   end
 end

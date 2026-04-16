@@ -102,12 +102,16 @@ const filterTypes = [
     filterOperators: OPERATOR_TYPES_5,
     attributeModel: 'standard',
   },
+  // MOD-7: Filtro desatendidos (waiting_since IS NOT NULL)
   {
-    attributeKey: 'referer',
-    attributeI18nKey: 'REFERER_LINK',
-    inputType: 'plain_text',
+    attributeKey: 'waiting_since',
+    attributeI18nKey: 'WAITING_SINCE',
+    inputType: 'none',
     dataType: 'text',
-    filterOperators: OPERATOR_TYPES_5,
+    filterOperators: [
+      { value: 'is_present', label: 'Is present' },
+      { value: 'is_not_present', label: 'Is not present' },
+    ],
     attributeModel: 'standard',
   },
 ];
@@ -117,56 +121,24 @@ export const filterAttributeGroups = [
     name: 'Standard Filters',
     i18nGroup: 'STANDARD_FILTERS',
     attributes: [
-      {
-        key: 'status',
-        i18nKey: 'STATUS',
-      },
-      {
-        key: 'assignee_id',
-        i18nKey: 'ASSIGNEE_NAME',
-      },
-      {
-        key: 'inbox_id',
-        i18nKey: 'INBOX_NAME',
-      },
-      {
-        key: 'team_id',
-        i18nKey: 'TEAM_NAME',
-      },
-      {
-        key: 'display_id',
-        i18nKey: 'CONVERSATION_IDENTIFIER',
-      },
-      {
-        key: 'campaign_id',
-        i18nKey: 'CAMPAIGN_NAME',
-      },
-      {
-        key: 'labels',
-        i18nKey: 'LABELS',
-      },
-      {
-        key: 'created_at',
-        i18nKey: 'CREATED_AT',
-      },
-      {
-        key: 'last_activity_at',
-        i18nKey: 'LAST_ACTIVITY',
-      },
+      { key: 'status', i18nKey: 'STATUS' },
+      { key: 'assignee_id', i18nKey: 'ASSIGNEE_NAME' },
+      { key: 'inbox_id', i18nKey: 'INBOX_NAME' },
+      { key: 'team_id', i18nKey: 'TEAM_NAME' },
+      { key: 'display_id', i18nKey: 'CONVERSATION_IDENTIFIER' },
+      { key: 'campaign_id', i18nKey: 'CAMPAIGN_NAME' },
+      { key: 'labels', i18nKey: 'LABELS' },
+      { key: 'created_at', i18nKey: 'CREATED_AT' },
+      { key: 'last_activity_at', i18nKey: 'LAST_ACTIVITY' },
+      { key: 'waiting_since', i18nKey: 'WAITING_SINCE' },
     ],
   },
   {
     name: 'Additional Filters',
     i18nGroup: 'ADDITIONAL_FILTERS',
     attributes: [
-      {
-        key: 'browser_language',
-        i18nKey: 'BROWSER_LANGUAGE',
-      },
-      {
-        key: 'referer',
-        i18nKey: 'REFERER_LINK',
-      },
+      { key: 'browser_language', i18nKey: 'BROWSER_LANGUAGE' },
+      { key: 'referer', i18nKey: 'REFERER_LINK' },
     ],
   },
 ];
